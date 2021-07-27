@@ -11,9 +11,8 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN, parse_mode=types.ParseMode.HTML)
 dp = Dispatcher(bot)
 
-@dp.message_handler(commands="start")
-async def test(message: types.Message):
-    await message.reply("Safasf")
 
 if __name__=="__main__":
+    from app.handlers.start import dp #Команда start
+    from app.handlers.info import dp #Команда info
     executor.start_polling(dp,skip_updates=True)
