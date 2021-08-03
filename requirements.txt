@@ -1,3 +1,4 @@
 aiogram
 requests
 bs4
+sqlite3
