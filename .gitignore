@@ -27,7 +27,7 @@ wheels/
 *.egg
 config/
 bot.ini
-
+auto_bot_base.db
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
