@@ -1,19 +1,18 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from app.keyboards.callback_datas import new_follow_callback, choise_mark_callback, choise_price_callback
+from app.keyboards.callback_datas import new_follow_callback, choise_mark_callback, choise_price_callback, unfollow_callback
 
 from bot import db
 
-# Клавиатура новой подписки
-new_follow = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Новая подписка", callback_data=new_follow_callback.new(clown=12))
-        ],
-        [
-            InlineKeyboardButton(text="Назад", callback_data="cancel")
-        ]
-    ]
-)
+# Клавиатура новой подписки и отписки,я просто хз как это сделать лучше
+def new_follow(flag = False,id_follow = 0):
+    new_follow_key = InlineKeyboardMarkup(row_width=1)
+    if flag:
+        unfollow_button = InlineKeyboardButton(text="Отписаться",
+                                               callback_data=unfollow_callback.new(id_follow=id_follow))
+        new_follow_key.insert(unfollow_button)
+    new_follow_key.insert(InlineKeyboardButton(text="Новая подписка", callback_data=new_follow_callback.new(clown=12)))
+    new_follow_key.insert(InlineKeyboardButton(text="Назад", callback_data="cancel"))
+    return new_follow_key
 
 # Клавиатура выбора нужной марки
 def choise_mark_but():

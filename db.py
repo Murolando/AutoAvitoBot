@@ -24,11 +24,18 @@ class AutoBotDB:
             return bool(len(result))
 
     # Проверяем есть ли уже такая конкретная подписка
-    def this_follow_exist(self, chat_id, mark_id, price_id):
+    def this_follow_exist1(self, chat_id, mark_id, price_id):
         with self.connection:
             result = self.cursor.execute(
                 f"SELECT * FROM `follows` WHERE `price_id` = ? AND `mark_id` = ? AND `chat_id` = ?",
                 (price_id, mark_id, chat_id)).fetchall()
+            return bool(len(result))
+
+    # Проверяем есть ли уже такая конкретная подписка c id_follow
+    def this_follow_exist2(self, id_follow):
+        with self.connection:
+            result = self.cursor.execute(
+                f"SELECT * FROM `follows` WHERE `id_follow` = ? ", (id_follow,)).fetchall()
             return bool(len(result))
 
     # Добавляем новую подписку
@@ -42,10 +49,10 @@ class AutoBotDB:
             return self.cursor.execute(f"UPDATE `follows` SET `price_id` = ? AND `mark_id` = ? WHERE `chat_id` =?",
                                        (price_id, mark_id, chat_id))
 
-    # Удаляем подписку
-    # def del_follow(self,id_follow):
-    #     with self.connection:
-    #         return self.cursor.execute(f"DELETE FROM `follows` WHERE `id_follow`=?", (id_follow,))
+    # Удаляем конкретную подписку
+    def del_this_follow(self, id_follow):
+        with self.connection:
+            return self.cursor.execute(f"DELETE FROM `follows` WHERE `id_follow`=?", (id_follow,))
 
     # Удалить все подписки после /stop
     def del_follow(self, chat_id):
@@ -59,12 +66,12 @@ class AutoBotDB:
             vivod = []
             i = 0
             for line in result:
+                id_follow = result[i][0]
                 mark = self.cursor.execute(f"SELECT `name` FROM `marks` WHERE `id_mark` = ?",
                                            (result[i][1],)).fetchall()
                 price = self.cursor.execute(f"SELECT `price` FROM `prices` WHERE `id_price` = ?",
                                             (result[i][2],)).fetchall()
-                vivod.append([*mark, *price])
-                print(vivod[i])
+                vivod.append([id_follow, mark, price])
                 i += 1
         return vivod
 
