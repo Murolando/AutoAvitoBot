@@ -24,4 +24,5 @@ if __name__=="__main__":
     from app.handlers.stop import dp # Команда stop
     from app.handlers.new_follow import dp # События на добавление новой подписки
     from app.handlers.unfollow import dp # Событие на удаление подписка
+    from app.handlers.avito import dp # avito actions
     executor.start_polling(dp, skip_updates=True)
