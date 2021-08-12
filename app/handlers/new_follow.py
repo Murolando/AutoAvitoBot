@@ -29,4 +29,4 @@ async def make_new_follow(call: CallbackQuery):
         db.add_follow(call.from_user.id, mark_id, price_id)
         await call.message.answer("Новая подписка успешно добавлена")
     else:
-        await call.message.answer("Такая подписка уже существует")
+        await call.message.answer(" Подобная подписка уже существует")

@@ -13,44 +13,63 @@ from bs4 import BeautifulSoup
 
 # default для mvc
 city = "vladikavkaz"
-radius = 0
+radius = 100
 allowed_data = ['часов', 'часа','час']
+
 @dp.message_handler(commands='avito')
 async def avito_list(message: types.Message):
-    splited_message = message.text.split()
-    marka = splited_message[1]
-    model = splited_message[2]
+    # Проверим есть ли вообще подписки
+    if db.follows_exists(message.from_user.id):
+
+        # Выводим все объявления по подпискам
+        follows = db.show_subs(message.from_user.id)
+
+        for follow in follows:
+            line = follow[1][0][0]
+
+            with db.connection:
+                marka = db.cursor.execute(f"SELECT `avito_mark_name` FROM `marks` WHERE `name` = ?", (line,)).fetchall()
+                marka = marka[0][0]
+
+            max_price = follow[2][0][0]
+            #model = "2114_samara"
+            #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
+            url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
+            response = requests.get(url)
+            print(response.status_code)
+            soup = BeautifulSoup(response.text,'lxml')
+            main_container = soup.find_all('div',class_= re.compile('iva-item-content*'))
 
 
-    url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
-    response = requests.get(url)
-    print(response.status_code)
-    soup = BeautifulSoup(response.text,'lxml')
-    main_container = soup.find_all('div',class_= re.compile('iva-item-content*'))
+
+
+            for index, content in enumerate(main_container):
+                contaier_of_content = content.find("div",class_=re.compile("iva-item-body*"))
+
+                ad_post = contaier_of_content.find("div", {"data-marker": "item-line"})
+
+                if ad_post==None:
+                    fresh_car = contaier_of_content.find("div",{"data-marker":"item-date"}).text.split()[1]
+                    price = content.find('span', class_=re.compile('price-price-*')).find('meta', itemprop="price")[
+                        'content']
+
+                    if fresh_car in allowed_data and int(price) <= max_price: # проверка на сегодняшний день и на подхождение по цене
+
+                        title_info = contaier_of_content.find('a',class_=re.compile('iva-item-title*'))['title'].split(',')
+                        town_info = contaier_of_content.find('div',class_=re.compile('geo-root*')).find('span').text
+                        link = content.find('a', class_=re.compile('iva-item-sliderLink*'))['href']
+
+                        currency = content.find('span', class_=re.compile('price-price-*')).find('meta')['content']
+                        car_info = title_info[0]
+                        was_created = title_info[1]
+                        city_on_sale = town_info
+
+                        await message.answer(f"{car_info} - {was_created}. {city_on_sale}\n{price} {currency}\n<a>https://avito.ru{link}</a>",parse_mode=ParseMode.HTML)
+    else:
+        await message.answer("У вас нет ни одной подписки")
 
 
 
-
-    for index, content in enumerate(main_container):
-        contaier_of_content = content.find("div",class_=re.compile("iva-item-body*"))
-        
-        ad_post = contaier_of_content.find("div", {"data-marker": "item-line"})
-        
-        if ad_post==None:
-            fresh_car = contaier_of_content.find("div",{"data-marker":"item-date"}).text.split()[1]
-            
-            if fresh_car in allowed_data: # проверка на сегодняшний день
-            
-                title_info = contaier_of_content.find('a',class_=re.compile('iva-item-title*'))['title'].split(',')
-                town_info = contaier_of_content.find('div',class_=re.compile('geo-root*')).find('span').text
-                link = content.find('a', class_=re.compile('iva-item-sliderLink*'))['href']
-                car_info = title_info[0]
-                was_created = title_info[1]
-                city_on_sale = town_info
-                
-                await message.answer(f"{car_info} - {was_created}. {city_on_sale}\n<a>https://avito.ru{link}</a>",parse_mode=ParseMode.HTML)
-                
-                
 
  
   

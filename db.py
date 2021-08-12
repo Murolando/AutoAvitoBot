@@ -27,8 +27,8 @@ class AutoBotDB:
     def this_follow_exist1(self, chat_id, mark_id, price_id):
         with self.connection:
             result = self.cursor.execute(
-                f"SELECT * FROM `follows` WHERE `price_id` = ? AND `mark_id` = ? AND `chat_id` = ?",
-                (price_id, mark_id, chat_id)).fetchall()
+                f"SELECT * FROM `follows` WHERE `mark_id` = ? AND `chat_id` = ?",
+                (mark_id, chat_id)).fetchall()
             return bool(len(result))
 
     # Проверяем есть ли уже такая конкретная подписка c id_follow
@@ -67,11 +67,15 @@ class AutoBotDB:
             i = 0
             for line in result:
                 id_follow = result[i][0]
+
                 mark = self.cursor.execute(f"SELECT `name` FROM `marks` WHERE `id_mark` = ?",
                                            (result[i][1],)).fetchall()
                 price = self.cursor.execute(f"SELECT `price` FROM `prices` WHERE `id_price` = ?",
                                             (result[i][2],)).fetchall()
+                price[0] = list(price[0])
+                mark[0] = list(mark[0])
                 vivod.append([id_follow, mark, price])
+
                 i += 1
         return vivod
 
