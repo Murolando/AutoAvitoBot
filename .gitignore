@@ -25,9 +25,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-config/
-bot.ini
-auto_bot_base.db
+#config/
+#bot.ini
+#auto_bot_base.db
 
 # Installer logs
 pip-log.txt
