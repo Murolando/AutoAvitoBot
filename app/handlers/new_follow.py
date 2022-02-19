@@ -16,7 +16,7 @@ async def make_new_follow(call: CallbackQuery):
     await call.answer(cache_time=60)
     call_info = call.data.split(':')
     mark_id = int(call_info[1])
-    await call.message.answer("Выберете максимальную цену, для фильтрации объявлений", reply_markup=choise_price_but(mark_id))
+    await call.message.answer("Выберете максимальную цену, для фильтрации объявлений(цена указана в тысячах)", reply_markup=choise_price_but(mark_id))
 
 # Событие после выбора нужной цены
 @dp.callback_query_handler(text_contains="price")

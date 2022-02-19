@@ -31,7 +31,7 @@ async def avito_list(message: types.Message):
                 marka = db.cursor.execute(f"SELECT `avito_mark_name` FROM `marks` WHERE `name` = ?", (line,)).fetchall()
                 marka = marka[0][0]
 
-            max_price = follow[2][0][0]
+            max_price = follow[2][0][0]*1000
             #model = "2114_samara"
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
@@ -39,9 +39,6 @@ async def avito_list(message: types.Message):
             print(response.status_code)
             soup = BeautifulSoup(response.text,'lxml')
             main_container = soup.find_all('div',class_= re.compile('iva-item-content*'))
-
-
-
 
             for index, content in enumerate(main_container):
                 contaier_of_content = content.find("div",class_=re.compile("iva-item-body*"))
@@ -65,6 +62,7 @@ async def avito_list(message: types.Message):
                         city_on_sale = town_info
 
                         await message.answer(f"{car_info} - {was_created}. {city_on_sale}\n{price} {currency}\n<a>https://avito.ru{link}</a>",parse_mode=ParseMode.HTML)
+
     else:
         await message.answer("У вас нет ни одной подписки")
 
