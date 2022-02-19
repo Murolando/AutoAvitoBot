@@ -68,4 +68,5 @@ docs/html
 # pynev
 .python-version
 
-config
+.config
+auto_bot_base.db
