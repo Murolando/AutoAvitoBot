@@ -35,7 +35,10 @@ async def avito_list(message: types.Message):
             #model = "2114_samara"
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
-            response = requests.get(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
+            }
+            response = requests.get(url, headers = headers)
             print(response.status_code)
             soup = BeautifulSoup(response.text,'lxml')
             main_container = soup.find_all('div',class_= re.compile('iva-item-content*'))
