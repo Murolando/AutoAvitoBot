@@ -45,7 +45,7 @@ async def avito_list(message: types.Message):
             ua = UserAgent()
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
             headers = {
-                'User-Agent': f'{ua.random}',
+                'User-Agent': f'{ua.google}',
             }
             response = requests.get(url, headers = headers)
             print(response.status_code)
