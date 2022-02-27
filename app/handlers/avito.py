@@ -70,7 +70,6 @@ async def avito_list(message: types.Message):
                         title_info = contaier_of_content.find('a',class_=re.compile('iva-item-title*'))['title'].split(',')
                         town_info = contaier_of_content.find('div',class_=re.compile('geo-root*')).find('span').text
                         datePost_info = contaier_of_content.find('div',class_=re.compile('iva-item-dateInfo*')).find('div').text
-                        print(datePost_info)
                         link = content.find('a', class_=re.compile('iva-item-sliderLink*'))['href']
 
                         currency = content.find('span', class_=re.compile('price-price-*')).find('meta')['content']
