@@ -41,13 +41,13 @@ async def avito_list(message: types.Message):
             #model = "2114_samara"
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
             ua = UserAgent()
-            url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
-            headers = {
+            s = requests.Session()
+            s.headers={
                 'User-Agent': f'{ua.google}',
+                'Accept-Language' : 'ru',
             }
-            params ={}
-            params['key'] = 'af0deccbgcgidddjgnvljitntccdduijhdinfgjgfjir'
-            response = requests.get(url, headers = headers, params=params)
+            url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
+            response = s.get(url)
             print(response.status_code)
             soup = BeautifulSoup(response.text,'lxml')
             check_empty = False
