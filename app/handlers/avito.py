@@ -1,6 +1,4 @@
 # aiogram
-from ast import parse
-from tkinter.tix import Tree
 from aiogram import types
 from aiogram.types.message import ParseMode
 from bot import dp
