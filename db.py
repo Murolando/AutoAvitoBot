@@ -72,9 +72,12 @@ class AutoBotDB:
                                            (result[i][1],)).fetchall()
                 price = self.cursor.execute(f"SELECT `price` FROM `prices` WHERE `id_price` = ?",
                                             (result[i][2],)).fetchall()
+                price_up = self.cursor.execute(f"SELECT `price_up` FROM `prices` WHERE `id_price` = ?",
+                                            (result[i][2],)).fetchall()
                 price[0] = list(price[0])
                 mark[0] = list(mark[0])
-                vivod.append([id_follow, mark, price])
+                price_up[0]=list(price_up[0])
+                vivod.append([id_follow, mark, price,price_up])
 
                 i += 1
         return vivod
@@ -96,3 +99,4 @@ class AutoBotDB:
             for price in result:
                 vivod.append(price)
         return vivod
+    
