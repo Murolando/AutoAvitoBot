@@ -45,7 +45,9 @@ async def avito_list(message: types.Message):
             headers = {
                 'User-Agent': f'{ua.google}',
             }
-            response = requests.get(url, headers = headers)
+            params ={}
+            params['key'] = 'af0deccbgcgidddjgnvljitntccdduijhdinfgjgfjir'
+            response = requests.get(url, headers = headers, params=params)
             print(response.status_code)
             soup = BeautifulSoup(response.text,'lxml')
             check_empty = False
