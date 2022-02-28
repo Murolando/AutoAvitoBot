@@ -46,6 +46,8 @@ async def avito_list(message: types.Message):
                 'User-Agent': f'{ua.google}',
                 'Accept-Language' : 'ru',
                 'Accept' : 'application/json',
+                'pragma' : 'no-cache',
+                'cache-control': 'no-cache',
             }
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
             response = s.get(url)
