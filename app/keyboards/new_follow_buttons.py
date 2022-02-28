@@ -27,7 +27,9 @@ def choise_mark_but():
 def choise_price_but(mark_id):
     choise_price = InlineKeyboardMarkup(row_width=3)
     prices = db.show_prices()
-    for price in prices:
-        price_button = InlineKeyboardButton(text=str(price[1]), callback_data=choise_price_callback.new(mark_id=mark_id, price_id=price[0]))
+    prices_radius = [500000, 1000000, "больше"]
+    print(prices)
+    for i in range(3):
+        price_button = InlineKeyboardButton(text=str(f"{prices[i][1]}-{prices_radius[i]}"), callback_data=choise_price_callback.new(mark_id=mark_id, price_id=prices[i][0]))
         choise_price.insert(price_button)
     return choise_price
