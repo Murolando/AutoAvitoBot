@@ -12,6 +12,10 @@ async def show_follows(message: types.Message):
         for line in subs:
             mark = line[1][0][0]
             price = line[2][0][0]
-            await message.answer("Марка: " + str(mark) + '\n'+"Цена: "+str(price), reply_markup=new_follow(True, line[0]))
+            if line[3][0][0] == None:
+                await message.answer("Марка: " + str(mark) + '\n'+"Цена: "+str(price)+" и больше", reply_markup=new_follow(True, line[0]))
+            else:
+                price_up = line[3][0][0]
+                await message.answer("Марка: " + str(mark) + '\n'+"Цена: "+str(price)+" до "+str(price_up), reply_markup=new_follow(True, line[0]))
     else:
         await message.answer("У вас еще нет подписок", reply_markup=new_follow())
