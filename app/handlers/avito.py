@@ -32,6 +32,7 @@ def get_session(url):
         'sec-ch-ua-platform':'Windows',
         'referer':url,
         'sec-fetch-site': 'none',
+        'x-requested-with':'XMLHttpRequest',
     }
     return cfscrape.create_scraper(sess=session)
 
