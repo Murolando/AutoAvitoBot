@@ -45,7 +45,7 @@ async def avito_list(message: types.Message):
             s.headers={
                 'User-Agent': f'{ua.google}',
                 'Accept-Language' : 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-                "Accept-Encoding": "gzip, deflate, br"
+                "Accept-Encoding": "gzip, deflate, br",
                 'Accept' : 'application/json',
                 'pragma' : 'no-cache',
                 'cache-control': 'no-cache',
