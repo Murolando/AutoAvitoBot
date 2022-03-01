@@ -55,7 +55,6 @@ async def avito_list(message: types.Message):
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
             s = get_session()
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
-            s.headers(["Host":"https://www.avito.ru"])
             print(url)
             response = s.get(url)
             print(response.status_code)
