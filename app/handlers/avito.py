@@ -4,9 +4,7 @@ from aiogram.types.message import ParseMode
 from bot import dp
 from bot import db
 from aiogram.utils.markdown import hbold, hlink
-
-# user agent
-from fake_useragent import UserAgent
+import cfscrape
 
 # python
 import re
@@ -17,6 +15,22 @@ from bs4 import BeautifulSoup
 city = "vladikavkaz"
 radius = 100
 allowed_data = ['часов', 'часа','час']
+
+
+def get_session():
+    session = requests.Session()
+    session.headers = {
+        'Host':'www.artstation.com',
+        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0)   Gecko/20100101 Firefox/69.0',
+        'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language':'ru,en-US;q=0.5',
+        'Accept-Encoding':'gzip, deflate, br',
+        'DNT':'1',
+        'Connection':'keep-alive',
+        'Upgrade-Insecure-Requests':'1',
+        'Pragma':'no-cache',
+        'Cache-Control':'no-cache'}
+    return cfscrape.create_scraper(sess=session)
 
 @dp.message_handler(commands='avito')
 async def avito_list(message: types.Message):
@@ -40,16 +54,7 @@ async def avito_list(message: types.Message):
                 max_price = follow[3][0][0]
             #model = "2114_samara"
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
-            ua = UserAgent()
-            s = requests.Session()
-            s.headers={
-                'User-Agent': f'{ua.google}',
-                'Accept-Language' : 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-                "Accept-Encoding": "gzip, deflate, br",
-                'Accept' : 'application/json',
-                'pragma' : 'no-cache',
-                'cache-control': 'no-cache',
-            }
+            s = get_session()
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
             
             print(url)
