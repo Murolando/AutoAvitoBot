@@ -50,6 +50,8 @@ async def avito_list(message: types.Message):
                 'cache-control': 'no-cache',
             }
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
+            
+            print(url)
             response = s.get(url)
             print(response.status_code)
             soup = BeautifulSoup(response.text,'lxml')
