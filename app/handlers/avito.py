@@ -17,7 +17,7 @@ radius = 100
 allowed_data = ['часов', 'часа','час']
 
 
-def get_session():
+def get_session(url):
     session = requests.Session()
     session.headers = {
         'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0)   Gecko/20100101 Firefox/69.0',
@@ -28,7 +28,11 @@ def get_session():
         'Connection':'keep-alive',
         'Upgrade-Insecure-Requests':'1',
         'Pragma':'no-cache',
-        'Cache-Control':'no-cache'}
+        'Cache-Control':'no-cache',
+        'sec-ch-ua-platform':'Windows',
+        'referer':url,
+        'sec-fetch-site': 'none',
+    }
     return cfscrape.create_scraper(sess=session)
 
 @dp.message_handler(commands='avito')
@@ -53,8 +57,8 @@ async def avito_list(message: types.Message):
                 max_price = follow[3][0][0]
             #model = "2114_samara"
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
-            s = get_session()
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
+            s = get_session(url)
             print(url)
             response = s.get(url)
             print(response.status_code)
