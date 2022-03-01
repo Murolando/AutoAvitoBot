@@ -20,7 +20,6 @@ allowed_data = ['часов', 'часа','час']
 def get_session():
     session = requests.Session()
     session.headers = {
-        'Host':'www.artstation.com',
         'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0)   Gecko/20100101 Firefox/69.0',
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language':'ru,en-US;q=0.5',
@@ -56,7 +55,7 @@ async def avito_list(message: types.Message):
             #url = f"https://www.avito.ru/{city}/avtomobili/{marka}/{model}?radius={radius}"
             s = get_session()
             url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
-            
+            s.headers(["Host":"https://www.avito.ru"])
             print(url)
             response = s.get(url)
             print(response.status_code)
