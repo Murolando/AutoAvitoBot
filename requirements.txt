@@ -4,3 +4,4 @@ bs4
 asyncio
 lxml
 fake-useragent
+cfscrape
