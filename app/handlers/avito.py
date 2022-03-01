@@ -49,7 +49,7 @@ async def avito_list(message: types.Message):
                 'pragma' : 'no-cache',
                 'cache-control': 'no-cache',
             }
-            url = f"https://www.avito.ru/{city}/avtomobili/{marka}?radius={radius}"
+            url = f"https://www.avito.ru/{city}/avtomobili/{marka}-ASgBAgICAUTgtg3GmSg?radius={radius}"
             
             print(url)
             response = s.get(url)
