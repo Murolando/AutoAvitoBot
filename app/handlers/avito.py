@@ -20,7 +20,7 @@ allowed_data = ['часов', 'часа','час']
 def get_session(url):
     session = requests.Session()
     session.headers = {
-        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0)   Gecko/20100101 Firefox/69.0',
+        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language':'ru,en-US;q=0.5',
         'Accept-Encoding':'gzip, deflate, br',
